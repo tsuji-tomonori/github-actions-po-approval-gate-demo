@@ -1,1 +1,5 @@
 Initial release candidate for the PO approval gate demonstration.
+Live acceptance candidate 1: 2026-07-25T04:18:00Z
+Live acceptance candidate 2 after first revision: 2026-07-25T04:20:00Z
+Observed approval and deployment candidate: 2026-07-25T04:23:00Z
+Persistent deployment evidence candidate: 2026-07-25T04:31:00Z

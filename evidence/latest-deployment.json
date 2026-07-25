@@ -1,0 +1,11 @@
+{
+  "schema_version": "production-deployment-validation/v1",
+  "repository": "tsuji-tomonori/github-actions-po-approval-gate-demo",
+  "merge_sha": "eeafeb4c43c59ff92fc3bfb200a2007af9b4c206",
+  "source_pull_request": 4,
+  "workflow_run_id": "30144224312",
+  "workflow_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30144224312",
+  "artifact_name": "production-deployment-eeafeb4c43c59ff92fc3bfb200a2007af9b4c206",
+  "result": "PASS",
+  "verified_at": "2026-07-25T04:33:22.351Z"
+}
