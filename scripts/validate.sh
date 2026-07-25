@@ -51,7 +51,8 @@ grep -Fq 'github.rest.checks.update' .github/workflows/branch-policy.yml
 grep -Fq 'upsertObservation' .github/workflows/branch-policy.yml
 ! grep -Fq 'actions/checkout' .github/workflows/branch-policy.yml
 
-# Parse and syntax-check the inline actions/github-script program as an ES module.
+# actions/github-script evaluates the inline body inside an async function.
+# Recreate that execution context before asking Node to syntax-check it.
 python3 - <<'PY' >/tmp/branch-policy-script.mjs
 from pathlib import Path
 import textwrap
@@ -65,7 +66,9 @@ except StopIteration as exc:
 script = textwrap.dedent('\n'.join(lines[start + 1 :])).rstrip() + '\n'
 if not script.strip():
     raise SystemExit('branch-policy.yml inline script is empty')
-print(script, end='')
+print('async function __githubScript__() {')
+print(textwrap.indent(script, '  '), end='')
+print('}')
 PY
 node --input-type=module --check </tmp/branch-policy-script.mjs
 
