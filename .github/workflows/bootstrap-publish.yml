@@ -1,8 +1,9 @@
 name: Publish repository source
 
 on:
-  pull_request_target:
-    types: [opened]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
   workflow_dispatch:
 
 permissions:
@@ -15,7 +16,7 @@ concurrency:
 
 jobs:
   publish:
-    if: ${{ github.actor == 'tsuji-tomonori' }}
+    if: ${{ github.actor == 'tsuji-tomonori' && github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
