@@ -16,13 +16,14 @@ jobs:
   capture:
     runs-on: ubuntu-latest
     steps:
-      - name: Capture workflow registration and recent runs
+      - name: Capture post-fix workflow and exact-SHA evidence
         uses: actions/github-script@v9
         with:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const targetSha = 'a363142da023a7ea64b30aa9a9b8b9d31395763c';
+            const pullNumbers = [9, 12];
+
             const workflows = await github.paginate(
               github.rest.actions.listRepoWorkflows,
               {owner, repo, per_page: 100},
@@ -31,58 +32,99 @@ jobs:
               github.rest.actions.listWorkflowRunsForRepo,
               {owner, repo, per_page: 100},
             );
-            const checks = await github.rest.checks.listForRef({
-              owner,
-              repo,
-              ref: targetSha,
-              per_page: 100,
-            });
-            const pr = await github.rest.pulls.get({
-              owner,
-              repo,
-              pull_number: 12,
-            });
+
+            const pullRequests = [];
+            for (const pullNumber of pullNumbers) {
+              const response = await github.rest.pulls.get({
+                owner,
+                repo,
+                pull_number: pullNumber,
+              });
+              const pr = response.data;
+              const checks = await github.rest.checks.listForRef({
+                owner,
+                repo,
+                ref: pr.head.sha,
+                per_page: 100,
+              });
+              pullRequests.push({
+                number: pr.number,
+                state: pr.state,
+                draft: pr.draft,
+                base: pr.base.ref,
+                base_sha: pr.base.sha,
+                head: pr.head.ref,
+                head_sha: pr.head.sha,
+                checks: checks.data.check_runs.map(check => ({
+                  id: check.id,
+                  name: check.name,
+                  status: check.status,
+                  conclusion: check.conclusion,
+                  external_id: check.external_id,
+                  app: check.app ? {id: check.app.id, slug: check.app.slug} : null,
+                  details_url: check.details_url,
+                  output: check.output ? {
+                    title: check.output.title,
+                    summary: check.output.summary,
+                  } : null,
+                })),
+              });
+            }
+
+            const recentRuns = runs.slice(0, 100).map(run => ({
+              id: run.id,
+              name: run.name,
+              path: run.path,
+              event: run.event,
+              status: run.status,
+              conclusion: run.conclusion,
+              head_branch: run.head_branch,
+              head_sha: run.head_sha,
+              run_number: run.run_number,
+              created_at: run.created_at,
+              updated_at: run.updated_at,
+            }));
+            const latestPolicyRuns = recentRuns
+              .filter(run => run.name === 'Branch policy')
+              .slice(0, 12);
+            const policyJobs = [];
+            for (const run of latestPolicyRuns) {
+              const jobs = await github.paginate(
+                github.rest.actions.listJobsForWorkflowRun,
+                {owner, repo, run_id: run.id, per_page: 100},
+              );
+              policyJobs.push({
+                run_id: run.id,
+                event: run.event,
+                head_branch: run.head_branch,
+                head_sha: run.head_sha,
+                conclusion: run.conclusion,
+                jobs: jobs.map(job => ({
+                  id: job.id,
+                  name: job.name,
+                  status: job.status,
+                  conclusion: job.conclusion,
+                })),
+              });
+            }
+
             const evidence = {
-              schema_version: 'actions-diagnostics/v1',
+              schema_version: 'actions-diagnostics/v2',
+              capture_revision: 2,
               captured_at: new Date().toISOString(),
               capture_run_id: String(context.runId),
               default_branch_sha: context.sha,
-              pull_request: {
-                number: pr.data.number,
-                state: pr.data.state,
-                base: pr.data.base.ref,
-                head: pr.data.head.ref,
-                head_sha: pr.data.head.sha,
-              },
+              pull_requests: pullRequests,
               workflows: workflows.map(workflow => ({
                 id: workflow.id,
                 name: workflow.name,
                 path: workflow.path,
                 state: workflow.state,
               })),
-              recent_runs: runs.slice(0, 100).map(run => ({
-                id: run.id,
-                name: run.name,
-                path: run.path,
-                event: run.event,
-                status: run.status,
-                conclusion: run.conclusion,
-                head_branch: run.head_branch,
-                head_sha: run.head_sha,
-                run_number: run.run_number,
-                created_at: run.created_at,
-                updated_at: run.updated_at,
-              })),
-              target_checks: checks.data.check_runs.map(check => ({
-                id: check.id,
-                name: check.name,
-                status: check.status,
-                conclusion: check.conclusion,
-                external_id: check.external_id,
-                app: check.app ? {id: check.app.id, slug: check.app.slug} : null,
-                details_url: check.details_url,
-              })),
+              latest_branch_policy_runs: policyJobs,
+              recent_runs: recentRuns,
             };
+
             const path = 'evidence/actions-diagnostics.json';
             let currentSha;
             try {
@@ -101,7 +143,7 @@ jobs:
               repo,
               path,
               branch: 'diagnostics',
-              message: 'chore: record GitHub Actions diagnostics',
+              message: 'chore: record post-fix GitHub Actions diagnostics',
               content: Buffer.from(`${JSON.stringify(evidence, null, 2)}\n`).toString('base64'),
               ...(currentSha ? {sha: currentSha} : {}),
             });
