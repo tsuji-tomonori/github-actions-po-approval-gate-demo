@@ -1,14 +1,13 @@
 name: Publish repository source
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - '.bootstrap/chunks/**'
-      - '.github/workflows/bootstrap-publish.yml'
+  pull_request_target:
+    types: [opened]
+  workflow_dispatch:
 
 permissions:
   contents: write
+  pull-requests: read
 
 concurrency:
   group: publish-repository-source
@@ -21,6 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: main
           fetch-depth: 0
       - name: Replace bootstrap tree with validated source
         shell: bash
