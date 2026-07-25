@@ -1,0 +1,35 @@
+name: Branch policy
+
+on:
+  pull_request_target:
+    branches: [main, prd]
+    types: [opened, synchronize, reopened, ready_for_review, edited]
+
+permissions:
+  contents: read
+
+jobs:
+  direction:
+    name: Validate branch direction
+    runs-on: ubuntu-latest
+    steps:
+      - name: Reject reverse merges from prd
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "$BASE_REF" in
+            main|prd) ;;
+            *)
+              echo "::error::Unsupported pull request target: $BASE_REF"
+              exit 2
+              ;;
+          esac
+          if [[ "$HEAD_REF" == prd ]]; then
+            echo '::error::The prd branch is deployment-only and must never be merged back into another branch.'
+            echo 'Create a change branch from main, then merge that branch into main or prd.'
+            exit 3
+          fi
+          echo "Branch flow: PASS ($HEAD_REF -> $BASE_REF)"
