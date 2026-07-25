@@ -4,19 +4,21 @@ on:
   pull_request_target:
     branches: [main, prd]
     types: [opened, synchronize, reopened, ready_for_review, edited]
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
 
 permissions:
   contents: read
+  actions: read
   checks: write
   issues: write
-
-concurrency:
-  group: branch-policy-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  pull-requests: read
 
 jobs:
   direction:
     name: Publish exact-SHA branch direction check
+    if: ${{ github.event_name == 'pull_request_target' || github.event.workflow_run.event == 'pull_request' }}
     runs-on: ubuntu-latest
     steps:
       - name: Evaluate trusted branch metadata
@@ -25,68 +27,71 @@ jobs:
           script: |
             const owner = context.repo.owner;
             const repo = context.repo.repo;
-            const pr = context.payload.pull_request;
             const checkName = 'Validate branch direction';
-            const externalId = `branch-direction:${pr.number}:${pr.head.sha}`;
 
-            let conclusion = 'success';
-            let title = 'Branch direction accepted';
-            let summary = `${pr.head.ref} -> ${pr.base.ref} is an allowed Pull Request direction.`;
+            async function loadPullRequests() {
+              if (context.eventName === 'pull_request_target') {
+                const eventPr = context.payload.pull_request;
+                const current = await github.rest.pulls.get({
+                  owner,
+                  repo,
+                  pull_number: eventPr.number,
+                });
+                if (current.data.state !== 'open' || current.data.head.sha !== eventPr.head.sha) {
+                  return [];
+                }
+                return [current.data];
+              }
 
-            if (!['main', 'prd'].includes(pr.base.ref)) {
-              conclusion = 'failure';
-              title = 'Unsupported target branch';
-              summary = `Pull Requests may target only main or prd, not ${pr.base.ref}.`;
-            } else if (pr.head.ref === 'prd') {
-              conclusion = 'failure';
-              title = 'Reverse release flow rejected';
-              summary = 'The prd branch is deployment-only and must never be merged back into another branch.';
+              const run = context.payload.workflow_run;
+              if (!run || run.event !== 'pull_request') {
+                return [];
+              }
+
+              const numbers = new Set(
+                (run.pull_requests || [])
+                  .map(pr => pr.number)
+                  .filter(number => Number.isInteger(number)),
+              );
+              if (numbers.size === 0) {
+                const associated = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                  owner,
+                  repo,
+                  commit_sha: run.head_sha,
+                  per_page: 100,
+                });
+                for (const pr of associated.data) {
+                  if (pr.state === 'open') numbers.add(pr.number);
+                }
+              }
+
+              const pullRequests = [];
+              for (const pullNumber of numbers) {
+                const current = await github.rest.pulls.get({
+                  owner,
+                  repo,
+                  pull_number: pullNumber,
+                });
+                if (
+                  current.data.state === 'open' &&
+                  current.data.head.sha === run.head_sha &&
+                  ['main', 'prd'].includes(current.data.base.ref)
+                ) {
+                  pullRequests.push(current.data);
+                }
+              }
+              return pullRequests;
             }
 
-            const listed = await github.rest.checks.listForRef({
-              owner,
-              repo,
-              ref: pr.head.sha,
-              check_name: checkName,
-              per_page: 100,
-            });
-            const prior = listed.data.check_runs.find(
-              run => run.external_id === externalId,
-            );
-            const common = {
-              owner,
-              repo,
-              status: 'completed',
-              conclusion,
-              completed_at: new Date().toISOString(),
-              details_url: pr.html_url,
-              output: {
-                title,
-                summary: `${summary}\n\nHEAD SHA: ${pr.head.sha}`,
-              },
-            };
-
-            if (prior) {
-              await github.rest.checks.update({
-                ...common,
-                check_run_id: prior.id,
-              });
-            } else {
-              await github.rest.checks.create({
-                ...common,
-                name: checkName,
-                head_sha: pr.head.sha,
-                external_id: externalId,
-              });
-            }
-
-            if (conclusion === 'failure') {
+            async function upsertObservation(pr, conclusion, summary) {
               const marker = '<!-- branch-direction-policy -->';
-              const body = `${marker}\n## Branch direction rejected\n\n` +
+              const label = conclusion === 'success' ? 'ACCEPTED' : 'REJECTED';
+              const body = `${marker}\n## Branch direction ${label}\n\n` +
                 `- Head: \`${pr.head.ref}\`\n` +
                 `- Base: \`${pr.base.ref}\`\n` +
-                `- HEAD SHA: \`${pr.head.sha}\`\n\n` +
-                `${summary}\n\nCreate a change branch from \`main\`, then merge that branch into \`main\` or \`prd\`.`;
+                `- HEAD SHA: \`${pr.head.sha}\`\n` +
+                `- Trigger: \`${context.eventName}\`\n\n` +
+                `${summary}`;
               const comments = await github.paginate(
                 github.rest.issues.listComments,
                 {owner, repo, issue_number: pr.number, per_page: 100},
@@ -109,5 +114,72 @@ jobs:
                   body,
                 });
               }
-              core.setFailed(summary);
+            }
+
+            const pullRequests = await loadPullRequests();
+            if (pullRequests.length === 0) {
+              core.notice('No current Pull Request revision requires branch-direction evaluation.');
+              return;
+            }
+
+            let rejected = false;
+            for (const pr of pullRequests) {
+              let conclusion = 'success';
+              let title = 'Branch direction accepted';
+              let summary = `${pr.head.ref} -> ${pr.base.ref} is an allowed Pull Request direction.`;
+
+              if (!['main', 'prd'].includes(pr.base.ref)) {
+                conclusion = 'failure';
+                title = 'Unsupported target branch';
+                summary = `Pull Requests may target only main or prd, not ${pr.base.ref}.`;
+              } else if (pr.head.ref === 'prd') {
+                conclusion = 'failure';
+                title = 'Reverse release flow rejected';
+                summary = 'The prd branch is deployment-only and must never be merged back into another branch.';
+              }
+
+              const externalId = `branch-direction:${pr.number}:${pr.head.sha}`;
+              const listed = await github.rest.checks.listForRef({
+                owner,
+                repo,
+                ref: pr.head.sha,
+                check_name: checkName,
+                per_page: 100,
+              });
+              const prior = listed.data.check_runs.find(
+                run => run.external_id === externalId,
+              );
+              const common = {
+                owner,
+                repo,
+                status: 'completed',
+                conclusion,
+                completed_at: new Date().toISOString(),
+                details_url: pr.html_url,
+                output: {
+                  title,
+                  summary: `${summary}\n\nHEAD SHA: ${pr.head.sha}`,
+                },
+              };
+
+              if (prior) {
+                await github.rest.checks.update({
+                  ...common,
+                  check_run_id: prior.id,
+                });
+              } else {
+                await github.rest.checks.create({
+                  ...common,
+                  name: checkName,
+                  head_sha: pr.head.sha,
+                  external_id: externalId,
+                });
+              }
+
+              await upsertObservation(pr, conclusion, summary);
+              if (conclusion === 'failure') rejected = true;
+            }
+
+            if (rejected) {
+              core.setFailed('One or more Pull Requests use a forbidden branch direction.');
             }
