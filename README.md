@@ -12,6 +12,35 @@ Product Owner（PO）が承認したPull Requestだけを`prd`へマージ可能
 6. `prd`へのマージで`Deploy production`が起動します。
 7. デプロイ前に、対象コミットが`prd`向けのmerged Pull Request由来であることを確認します。
 
+## 一度だけ行うRepository Administration設定
+
+接続済みのGitHub AppからEnvironmentとRulesetの管理APIを操作できない場合は、repository administratorとして認証したGitHub CLIから次を実行します。
+
+```bash
+gh auth login
+bash scripts/configure-repository.sh \
+  tsuji-tomonori \
+  github-actions-po-approval-gate-demo \
+  tsuji-tomonori
+
+bash scripts/verify-repository.sh \
+  tsuji-tomonori \
+  github-actions-po-approval-gate-demo \
+  tsuji-tomonori
+```
+
+個人アカウントの単独検証では`PREVENT_SELF_REVIEW=false`が既定です。複数のPOを持つOrganizationで運用する場合は、PO Team対応へ変更したうえで`PREVENT_SELF_REVIEW=true`を使用します。
+
+設定スクリプトは次を冪等に適用します。
+
+- `prd-approval` Environmentのrequired reviewerをPOだけに限定
+- `prd-approval`と`production`で管理者bypassを無効化
+- `prd-approval`は信頼済み実行refの`main`だけを許可
+- `production`は`prd`だけを許可
+- `prd`はPull Request経由、`PO approval for PRD`、`Validate repository`を必須化
+- `main`はPull Request経由と`Validate repository`を必須化
+- 両Rulesetのbypass actorを空に設定
+
 ## 必須のRepository設定
 
 ### Environment `prd-approval`
@@ -49,7 +78,7 @@ Product Owner（PO）が承認したPull Requestだけを`prd`へマージ可能
 ## 動作確認
 
 ```bash
-./scripts/validate.sh
+bash scripts/validate.sh
 ```
 
 GitHub上の受け入れテスト:
@@ -60,5 +89,14 @@ GitHub上の受け入れテスト:
 4. Check成功後にコミットを追加し、再びpendingへ戻ることを確認します。
 5. 新しいSHAを再承認して`prd`へマージします。
 6. `Deploy production`が成功し、`production-deployment-<SHA>` artifactのSHAとPR番号を確認します。
+
+## 現在の検証状況
+
+- Repository公開・source投入: PASS
+- `Validate repository`: PASS
+- 最新HEAD SHAへPO Checkを作成し、SHA変更後に新しいCheckを作る経路: PASS
+- `prd`マージ後のprovenance検証、模擬デプロイ、artifact生成: PASS
+- PR #4 / merge SHA `eeafeb4c43c59ff92fc3bfb200a2007af9b4c206` / workflow run `30144224312`の相互一致: PASS
+- required reviewerによる承認待ちとRulesetによるマージブロック: Repository Administration設定の適用後に最終確認
 
 個人アカウントの公開デモではPO Teamを作れないため、required reviewerにはPO役の個人ユーザーを指定します。実運用ではOrganization Teamを用い、Workflow管理者とPOを分離してください。
