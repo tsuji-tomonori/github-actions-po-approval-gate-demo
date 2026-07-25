@@ -28,7 +28,7 @@ feature/* ──> main ──> prd ──> Deploy production
 
 `prd`から`main`や他のブランチへ戻すPull Requestは禁止します。`prd`上で判明した修正は、`main`から修正ブランチを作って`main`へ反映し、その後、新しいPull Requestで`prd`へ配信します。
 
-`.github/workflows/branch-policy.yml`は信頼済みのdefault branchから、`pull_request_target`と`CI`完了後の`workflow_run`の両方で動きます。どちらの経路でもPull Requestのコードをcheckout・install・実行せず、現在もopenであるPull Requestと最新HEAD SHAをGitHub APIから再取得します。そのうえでChecks APIを使い、正確なHEAD SHAへ`Validate branch direction`を冪等に作成します。`workflow_run`経路は、CIが確実に完了した時点で判定を再同期するためのフォールバックです。古いSHAやクローズ済みPull Requestは処理しません。判定結果はPull Requestコメントにも記録します。
+`.github/workflows/branch-policy.yml`は信頼済みのdefault branchから、`pull_request_target`と`CI`完了後の`workflow_run`の両方で動きます。どちらの経路でもPull Requestのコードをcheckout・install・実行せず、現在もopenであるPull Requestと最新HEAD SHAをGitHub APIから再取得します。そのうえでChecks APIを使い、正確なHEAD SHAへ`Validate branch direction`を冪等に作成します。`workflow_run`経路は、CIが確実に完了した時点で判定を再同期するためのフォールバックです。古いSHAやクローズ済みPull Requestは処理しません。判定理由、head、base、HEAD SHA、triggerはCheck Runのoutputへ記録し、PRコメント権限には依存しません。
 
 ## 一度だけ行うRepository Administration設定
 
