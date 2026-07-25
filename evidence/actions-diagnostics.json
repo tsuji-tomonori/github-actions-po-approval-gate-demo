@@ -1,15 +1,529 @@
 {
-  "schema_version": "actions-diagnostics/v1",
-  "captured_at": "2026-07-25T08:25:46.526Z",
-  "capture_run_id": "30151079716",
-  "default_branch_sha": "1e54536f8828c005d52ffd9b88ab79daa0e68166",
-  "pull_request": {
-    "number": 12,
-    "state": "open",
-    "base": "main",
-    "head": "prd",
-    "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c"
-  },
+  "schema_version": "actions-diagnostics/v2",
+  "capture_revision": 2,
+  "captured_at": "2026-07-25T08:37:35.135Z",
+  "capture_run_id": "30151427368",
+  "default_branch_sha": "95cf576e734a88b6d07358c9ca54a23c2100934e",
+  "pull_requests": [
+    {
+      "number": 9,
+      "state": "open",
+      "draft": true,
+      "base": "prd",
+      "base_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
+      "head": "chore/reconcile-prd-with-main",
+      "head_sha": "580cd4e74b58c2df92e99300b2aafedd7e4cb2f8",
+      "checks": [
+        {
+          "id": 89662025548,
+          "name": "Close rejected approval check",
+          "status": "completed",
+          "conclusion": "skipped",
+          "external_id": "e0032420-2201-59d1-8420-8dd742999a87",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30151296508/job/89662025548",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89662025312,
+          "name": "Wait for PO approval",
+          "status": "completed",
+          "conclusion": "skipped",
+          "external_id": "e39c34a6-9698-56aa-85e6-d89359cfb206",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30151296508/job/89662025312",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89662020705,
+          "name": "PO approval for PRD",
+          "status": "in_progress",
+          "conclusion": null,
+          "external_id": "prd-po-approval:9:580cd4e74b58c2df92e99300b2aafedd7e4cb2f8",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/runs/89662020705",
+          "output": {
+            "title": "PO approval pending",
+            "summary": "PR #9 の 580cd4e74b58c2df92e99300b2aafedd7e4cb2f8 に対するPO承認待ちです。"
+          }
+        },
+        {
+          "id": 89662018797,
+          "name": "Validate branch direction",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "branch-direction:9:580cd4e74b58c2df92e99300b2aafedd7e4cb2f8",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/runs/89662018797",
+          "output": {
+            "title": "Branch direction accepted",
+            "summary": "chore/reconcile-prd-with-main -> prd is an allowed Pull Request direction.\n\nHead: chore/reconcile-prd-with-main\nBase: prd\nHEAD SHA: 580cd4e74b58c2df92e99300b2aafedd7e4cb2f8\nTrigger: workflow_run"
+          }
+        },
+        {
+          "id": 89662013422,
+          "name": "Validate repository",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "f7cb000c-cf82-5e41-bc87-cc56bfd00787",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30151297233/job/89662013422",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89662011823,
+          "name": "Prepare PO approval check",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "5634f565-76c2-5595-ba65-f37da9282844",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30151296508/job/89662011823",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89662011743,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "3b91cc6c-b944-527a-8615-8481bb314bb5",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30151296484/job/89662011743",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "state": "open",
+      "draft": false,
+      "base": "main",
+      "base_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "head": "prd",
+      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
+      "checks": [
+        {
+          "id": 89662174906,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "612effbe-0a84-50b1-b14a-8f2d49437db0",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30151360664/job/89662174906",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89662172095,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "16cbf20c-6510-5142-8a2c-112b9b4d9895",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30151359287/job/89662172095",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89662171763,
+          "name": "Validate repository",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "238acfdb-f186-5988-9bfe-30a8d4c94d00",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30151359124/job/89662171763",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89662154717,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "52946c76-5cc9-525e-8830-954b9c4b5e74",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30151352426/job/89662154717",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89660749618,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "af730af4-3c19-52fd-9ffc-ca177b36c531",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150801041/job/89660749618",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89660747683,
+          "name": "Validate repository",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "2a63c08f-de7f-5c7b-a540-9cacc5a33fd0",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150800314/job/89660747683",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89660747321,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "1d075fe7-38bb-5093-84d9-c600f64af229",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150800091/job/89660747321",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89660730621,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "aa428894-1197-568c-a1d8-d1ae7d4af859",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150793593/job/89660730621",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89659660199,
+          "name": "Validate branch direction",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "branch-direction:12:a363142da023a7ea64b30aa9a9b8b9d31395763c",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/runs/89659660199",
+          "output": {
+            "title": "Reverse release flow rejected",
+            "summary": "The prd branch is deployment-only and must never be merged back into another branch.\n\nHead: prd\nBase: main\nHEAD SHA: a363142da023a7ea64b30aa9a9b8b9d31395763c\nTrigger: workflow_run"
+          }
+        },
+        {
+          "id": 89659650669,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "24d9c466-2678-5588-bf6b-6a5117bab153",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150385991/job/89659650669",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89659650060,
+          "name": "Validate repository",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "6de2a727-00e7-5d38-9cc4-6221492192d4",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150385807/job/89659650060",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89659625968,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "ab81431e-4d60-51b6-aab8-87edd7330d51",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150376307/job/89659625968",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89659355936,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "676651d8-728f-50ac-937b-6f314d0ba5ab",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150273481/job/89659355936",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89659255778,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "2c4b41f4-7b05-5199-99bd-ca90689661cf",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150235055/job/89659255778",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89659252626,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "cancelled",
+          "external_id": "218482db-6195-5e6b-98c6-50914728a49a",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150234218/job/89659252626",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89659252522,
+          "name": "Validate repository",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "30ce197f-4c02-559f-90fa-2f0f7e792378",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150234145/job/89659252522",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89658406524,
+          "name": "Validate branch direction",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "7900d540-2738-5ae9-b314-6fb2cb2815b1",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30149915621/job/89658406524",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89657756881,
+          "name": "Validate branch direction",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "764bd85b-2eea-5e12-a25c-236c69e85caf",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30149672311/job/89657756881",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89657756120,
+          "name": "Validate branch direction",
+          "status": "completed",
+          "conclusion": "failure",
+          "external_id": "b519aab2-8ef0-5f42-bbf9-5dfe3aec7bca",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30149671970/job/89657756120",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89657755682,
+          "name": "Validate repository",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "4e68f9e1-11f8-52ef-8b5e-95edba85e503",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30149671849/job/89657755682",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89645439602,
+          "name": "Validate repository",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "d9c5301c-ecbd-59f4-8b7c-3e6328280842",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30145153985/job/89645439602",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89643564769,
+          "name": "Deploy production",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "1b2dd402-a9f5-504e-ad66-f83494256f84",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30144463034/job/89643564769",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89643556350,
+          "name": "Verify merged PR provenance",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "b3ee2174-4493-5167-a24f-95c09c796818",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30144463034/job/89643556350",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        },
+        {
+          "id": 89643556269,
+          "name": "Validate repository",
+          "status": "completed",
+          "conclusion": "success",
+          "external_id": "9d8db74e-ae44-5a58-8bfa-734d56d00633",
+          "app": {
+            "id": 15368,
+            "slug": "github-actions"
+          },
+          "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30144463051/job/89643556269",
+          "output": {
+            "title": null,
+            "summary": null
+          }
+        }
+      ]
+    }
+  ],
   "workflows": [
     {
       "id": 320158270,
@@ -42,32 +556,608 @@
       "state": "active"
     }
   ],
-  "recent_runs": [
+  "latest_branch_policy_runs": [
     {
-      "id": 30151079716,
-      "name": "Actions diagnostics",
-      "path": ".github/workflows/actions-diagnostics.yml",
-      "event": "push",
-      "status": "in_progress",
-      "conclusion": null,
+      "run_id": 30151419428,
+      "event": "workflow_run",
       "head_branch": "main",
-      "head_sha": "1e54536f8828c005d52ffd9b88ab79daa0e68166",
-      "run_number": 1,
-      "created_at": "2026-07-25T08:25:36Z",
-      "updated_at": "2026-07-25T08:25:40Z"
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 89662320852,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
     },
     {
-      "id": 30151079707,
+      "run_id": 30151415219,
+      "event": "pull_request_target",
+      "head_branch": "chore/recapture-actions-state",
+      "head_sha": "68f6cf0e80dbd1ce241a7b0d108edd145d7965be",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 89662310201,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 89662315128,
+          "name": "Validate branch direction",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run_id": 30151364567,
+      "event": "workflow_run",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 89662183725,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure"
+        }
+      ]
+    },
+    {
+      "run_id": 30151360664,
+      "event": "pull_request_target",
+      "head_branch": "prd",
+      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 89662174906,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure"
+        }
+      ]
+    },
+    {
+      "run_id": 30151359287,
+      "event": "pull_request_target",
+      "head_branch": "prd",
+      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
+      "conclusion": "failure",
+      "jobs": [
+        {
+          "id": 89662172095,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "failure"
+        }
+      ]
+    },
+    {
+      "run_id": 30151352426,
+      "event": "pull_request_target",
+      "head_branch": "prd",
+      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 89662154717,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run_id": 30151301261,
+      "event": "workflow_run",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 89662023775,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run_id": 30151296484,
+      "event": "pull_request_target",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "580cd4e74b58c2df92e99300b2aafedd7e4cb2f8",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 89662011743,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 89662018797,
+          "name": "Validate branch direction",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 89662020705,
+          "name": "PO approval for PRD",
+          "status": "in_progress",
+          "conclusion": null
+        }
+      ]
+    },
+    {
+      "run_id": 30151279764,
+      "event": "workflow_run",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 89661970162,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run_id": 30151273251,
+      "event": "pull_request_target",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "c4f85fa677457877908245dfb0262bccd3db540c",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 89661953835,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run_id": 30151252512,
+      "event": "workflow_run",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 89661899324,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "run_id": 30151247061,
+      "event": "pull_request_target",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "90fc7fe5cbf31f3748b2f5b796f0bc48d956436d",
+      "conclusion": "success",
+      "jobs": [
+        {
+          "id": 89661884930,
+          "name": "Publish exact-SHA branch direction check",
+          "status": "completed",
+          "conclusion": "success"
+        },
+        {
+          "id": 89661891121,
+          "name": "PO approval for PRD",
+          "status": "in_progress",
+          "conclusion": null
+        },
+        {
+          "id": 89661893098,
+          "name": "Validate branch direction",
+          "status": "completed",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ],
+  "recent_runs": [
+    {
+      "id": 30151427393,
       "name": "CI",
       "path": ".github/workflows/ci.yml",
       "event": "push",
       "status": "in_progress",
       "conclusion": null,
       "head_branch": "main",
+      "head_sha": "95cf576e734a88b6d07358c9ca54a23c2100934e",
+      "run_number": 58,
+      "created_at": "2026-07-25T08:37:21Z",
+      "updated_at": "2026-07-25T08:37:26Z"
+    },
+    {
+      "id": 30151427368,
+      "name": "Actions diagnostics",
+      "path": ".github/workflows/actions-diagnostics.yml",
+      "event": "push",
+      "status": "in_progress",
+      "conclusion": null,
+      "head_branch": "main",
+      "head_sha": "95cf576e734a88b6d07358c9ca54a23c2100934e",
+      "run_number": 2,
+      "created_at": "2026-07-25T08:37:21Z",
+      "updated_at": "2026-07-25T08:37:24Z"
+    },
+    {
+      "id": 30151419428,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "run_number": 50,
+      "created_at": "2026-07-25T08:37:04Z",
+      "updated_at": "2026-07-25T08:37:14Z"
+    },
+    {
+      "id": 30151415226,
+      "name": "CI",
+      "path": ".github/workflows/ci.yml",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "chore/recapture-actions-state",
+      "head_sha": "68f6cf0e80dbd1ce241a7b0d108edd145d7965be",
+      "run_number": 57,
+      "created_at": "2026-07-25T08:36:55Z",
+      "updated_at": "2026-07-25T08:37:03Z"
+    },
+    {
+      "id": 30151415219,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "chore/recapture-actions-state",
+      "head_sha": "68f6cf0e80dbd1ce241a7b0d108edd145d7965be",
+      "run_number": 49,
+      "created_at": "2026-07-25T08:36:55Z",
+      "updated_at": "2026-07-25T08:37:03Z"
+    },
+    {
+      "id": 30151364567,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "run_number": 48,
+      "created_at": "2026-07-25T08:35:10Z",
+      "updated_at": "2026-07-25T08:35:19Z"
+    },
+    {
+      "id": 30151360664,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_branch": "prd",
+      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
+      "run_number": 47,
+      "created_at": "2026-07-25T08:35:03Z",
+      "updated_at": "2026-07-25T08:35:12Z"
+    },
+    {
+      "id": 30151359287,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_branch": "prd",
+      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
+      "run_number": 46,
+      "created_at": "2026-07-25T08:35:01Z",
+      "updated_at": "2026-07-25T08:35:11Z"
+    },
+    {
+      "id": 30151359124,
+      "name": "CI",
+      "path": ".github/workflows/ci.yml",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "prd",
+      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
+      "run_number": 56,
+      "created_at": "2026-07-25T08:35:01Z",
+      "updated_at": "2026-07-25T08:35:08Z"
+    },
+    {
+      "id": 30151352426,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "prd",
+      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
+      "run_number": 45,
+      "created_at": "2026-07-25T08:34:47Z",
+      "updated_at": "2026-07-25T08:34:55Z"
+    },
+    {
+      "id": 30151301261,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "run_number": 44,
+      "created_at": "2026-07-25T08:32:59Z",
+      "updated_at": "2026-07-25T08:33:06Z"
+    },
+    {
+      "id": 30151297233,
+      "name": "CI",
+      "path": ".github/workflows/ci.yml",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "580cd4e74b58c2df92e99300b2aafedd7e4cb2f8",
+      "run_number": 55,
+      "created_at": "2026-07-25T08:32:50Z",
+      "updated_at": "2026-07-25T08:32:57Z"
+    },
+    {
+      "id": 30151296508,
+      "name": "PRD PO Approval",
+      "path": ".github/workflows/prd-po-approval.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "580cd4e74b58c2df92e99300b2aafedd7e4cb2f8",
+      "run_number": 22,
+      "created_at": "2026-07-25T08:32:49Z",
+      "updated_at": "2026-07-25T08:33:01Z"
+    },
+    {
+      "id": 30151296484,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "580cd4e74b58c2df92e99300b2aafedd7e4cb2f8",
+      "run_number": 43,
+      "created_at": "2026-07-25T08:32:49Z",
+      "updated_at": "2026-07-25T08:32:58Z"
+    },
+    {
+      "id": 30151279764,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "run_number": 42,
+      "created_at": "2026-07-25T08:32:16Z",
+      "updated_at": "2026-07-25T08:32:23Z"
+    },
+    {
+      "id": 30151274055,
+      "name": "CI",
+      "path": ".github/workflows/ci.yml",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "c4f85fa677457877908245dfb0262bccd3db540c",
+      "run_number": 54,
+      "created_at": "2026-07-25T08:32:04Z",
+      "updated_at": "2026-07-25T08:32:14Z"
+    },
+    {
+      "id": 30151273251,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "c4f85fa677457877908245dfb0262bccd3db540c",
+      "run_number": 41,
+      "created_at": "2026-07-25T08:32:03Z",
+      "updated_at": "2026-07-25T08:32:12Z"
+    },
+    {
+      "id": 30151273250,
+      "name": "PRD PO Approval",
+      "path": ".github/workflows/prd-po-approval.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "c4f85fa677457877908245dfb0262bccd3db540c",
+      "run_number": 21,
+      "created_at": "2026-07-25T08:32:03Z",
+      "updated_at": "2026-07-25T08:32:11Z"
+    },
+    {
+      "id": 30151252512,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "run_number": 40,
+      "created_at": "2026-07-25T08:31:21Z",
+      "updated_at": "2026-07-25T08:31:29Z"
+    },
+    {
+      "id": 30151247880,
+      "name": "CI",
+      "path": ".github/workflows/ci.yml",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "90fc7fe5cbf31f3748b2f5b796f0bc48d956436d",
+      "run_number": 53,
+      "created_at": "2026-07-25T08:31:12Z",
+      "updated_at": "2026-07-25T08:31:19Z"
+    },
+    {
+      "id": 30151247072,
+      "name": "PRD PO Approval",
+      "path": ".github/workflows/prd-po-approval.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "90fc7fe5cbf31f3748b2f5b796f0bc48d956436d",
+      "run_number": 20,
+      "created_at": "2026-07-25T08:31:10Z",
+      "updated_at": "2026-07-25T08:31:18Z"
+    },
+    {
+      "id": 30151247061,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "chore/reconcile-prd-with-main",
+      "head_sha": "90fc7fe5cbf31f3748b2f5b796f0bc48d956436d",
+      "run_number": 39,
+      "created_at": "2026-07-25T08:31:10Z",
+      "updated_at": "2026-07-25T08:31:20Z"
+    },
+    {
+      "id": 30151230782,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "skipped",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "run_number": 38,
+      "created_at": "2026-07-25T08:30:39Z",
+      "updated_at": "2026-07-25T08:30:51Z"
+    },
+    {
+      "id": 30151222915,
+      "name": "CI",
+      "path": ".github/workflows/ci.yml",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "main",
+      "head_sha": "c87039d4483dc25cb0bd52459bf6fb042bf8f48c",
+      "run_number": 52,
+      "created_at": "2026-07-25T08:30:26Z",
+      "updated_at": "2026-07-25T08:30:38Z"
+    },
+    {
+      "id": 30151210371,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_branch": "main",
+      "head_sha": "1e54536f8828c005d52ffd9b88ab79daa0e68166",
+      "run_number": 37,
+      "created_at": "2026-07-25T08:30:06Z",
+      "updated_at": "2026-07-25T08:30:15Z"
+    },
+    {
+      "id": 30151204955,
+      "name": "CI",
+      "path": ".github/workflows/ci.yml",
+      "event": "pull_request",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "fix/branch-policy-observation-failure",
+      "head_sha": "2f16459242b2ea74f4c9945f5da222cd76fec7b5",
+      "run_number": 51,
+      "created_at": "2026-07-25T08:29:56Z",
+      "updated_at": "2026-07-25T08:30:04Z"
+    },
+    {
+      "id": 30151204944,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "pull_request_target",
+      "status": "completed",
+      "conclusion": "failure",
+      "head_branch": "fix/branch-policy-observation-failure",
+      "head_sha": "2f16459242b2ea74f4c9945f5da222cd76fec7b5",
+      "run_number": 36,
+      "created_at": "2026-07-25T08:29:56Z",
+      "updated_at": "2026-07-25T08:30:05Z"
+    },
+    {
+      "id": 30151084092,
+      "name": "Branch policy",
+      "path": ".github/workflows/branch-policy.yml",
+      "event": "workflow_run",
+      "status": "completed",
+      "conclusion": "skipped",
+      "head_branch": "main",
+      "head_sha": "1e54536f8828c005d52ffd9b88ab79daa0e68166",
+      "run_number": 35,
+      "created_at": "2026-07-25T08:25:45Z",
+      "updated_at": "2026-07-25T08:25:46Z"
+    },
+    {
+      "id": 30151079716,
+      "name": "Actions diagnostics",
+      "path": ".github/workflows/actions-diagnostics.yml",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "main",
+      "head_sha": "1e54536f8828c005d52ffd9b88ab79daa0e68166",
+      "run_number": 1,
+      "created_at": "2026-07-25T08:25:36Z",
+      "updated_at": "2026-07-25T08:25:50Z"
+    },
+    {
+      "id": 30151079707,
+      "name": "CI",
+      "path": ".github/workflows/ci.yml",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "head_branch": "main",
       "head_sha": "1e54536f8828c005d52ffd9b88ab79daa0e68166",
       "run_number": 50,
       "created_at": "2026-07-25T08:25:36Z",
-      "updated_at": "2026-07-25T08:25:40Z"
+      "updated_at": "2026-07-25T08:25:43Z"
     },
     {
       "id": 30151070897,
@@ -978,612 +2068,6 @@
       "run_number": 26,
       "created_at": "2026-07-25T07:36:54Z",
       "updated_at": "2026-07-25T07:37:05Z"
-    },
-    {
-      "id": 30149485104,
-      "name": "PRD PO Approval",
-      "path": ".github/workflows/prd-po-approval.yml",
-      "event": "pull_request_target",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "chore/reconcile-prd-with-main",
-      "head_sha": "b29419d65c869f2f47a022305dece1a89d2eff32",
-      "run_number": 7,
-      "created_at": "2026-07-25T07:32:19Z",
-      "updated_at": "2026-07-25T07:32:27Z"
-    },
-    {
-      "id": 30149467948,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "pull_request",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "chore/reconcile-prd-with-main",
-      "head_sha": "b29419d65c869f2f47a022305dece1a89d2eff32",
-      "run_number": 25,
-      "created_at": "2026-07-25T07:31:47Z",
-      "updated_at": "2026-07-25T07:31:56Z"
-    },
-    {
-      "id": 30149467918,
-      "name": "PRD PO Approval",
-      "path": ".github/workflows/prd-po-approval.yml",
-      "event": "pull_request_target",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "chore/reconcile-prd-with-main",
-      "head_sha": "b29419d65c869f2f47a022305dece1a89d2eff32",
-      "run_number": 6,
-      "created_at": "2026-07-25T07:31:47Z",
-      "updated_at": "2026-07-25T07:32:04Z"
-    },
-    {
-      "id": 30145153985,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "pull_request",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "prd",
-      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
-      "run_number": 24,
-      "created_at": "2026-07-25T05:05:38Z",
-      "updated_at": "2026-07-25T05:05:48Z"
-    },
-    {
-      "id": 30144512136,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "96fa5dde4f400dd9d2b32bd94f06aef6c73011a3",
-      "run_number": 23,
-      "created_at": "2026-07-25T04:43:12Z",
-      "updated_at": "2026-07-25T04:43:19Z"
-    },
-    {
-      "id": 30144499033,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "pull_request",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "docs/live-validation-evidence",
-      "head_sha": "8504dddadf0424df6b115f19c6c2f7b057ab4b7a",
-      "run_number": 22,
-      "created_at": "2026-07-25T04:42:44Z",
-      "updated_at": "2026-07-25T04:42:55Z"
-    },
-    {
-      "id": 30144463051,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "prd",
-      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
-      "run_number": 21,
-      "created_at": "2026-07-25T04:41:30Z",
-      "updated_at": "2026-07-25T04:41:38Z"
-    },
-    {
-      "id": 30144463034,
-      "name": "Deploy production",
-      "path": ".github/workflows/deploy-prd.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "prd",
-      "head_sha": "a363142da023a7ea64b30aa9a9b8b9d31395763c",
-      "run_number": 6,
-      "created_at": "2026-07-25T04:41:30Z",
-      "updated_at": "2026-07-25T04:41:49Z"
-    },
-    {
-      "id": 30144451966,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "pull_request",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "chore/ruleset-compatible-deploy",
-      "head_sha": "721fb20603ed467b0a4e09d76b72205a14ba056e",
-      "run_number": 20,
-      "created_at": "2026-07-25T04:41:07Z",
-      "updated_at": "2026-07-25T04:41:15Z"
-    },
-    {
-      "id": 30144451927,
-      "name": "PRD PO Approval",
-      "path": ".github/workflows/prd-po-approval.yml",
-      "event": "pull_request_target",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "chore/ruleset-compatible-deploy",
-      "head_sha": "721fb20603ed467b0a4e09d76b72205a14ba056e",
-      "run_number": 5,
-      "created_at": "2026-07-25T04:41:07Z",
-      "updated_at": "2026-07-25T04:41:22Z"
-    },
-    {
-      "id": 30144424404,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "45c7ccdc82394ce8fd843f336c26dc82900430aa",
-      "run_number": 19,
-      "created_at": "2026-07-25T04:40:08Z",
-      "updated_at": "2026-07-25T04:40:15Z"
-    },
-    {
-      "id": 30144400782,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "62376946c7cd42b38e3e9cfc3a9bfb26df5877f9",
-      "run_number": 18,
-      "created_at": "2026-07-25T04:39:17Z",
-      "updated_at": "2026-07-25T04:39:24Z"
-    },
-    {
-      "id": 30144389051,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "298f8ba6e84b056cf71048b594764dcb9615e635",
-      "run_number": 17,
-      "created_at": "2026-07-25T04:38:50Z",
-      "updated_at": "2026-07-25T04:38:57Z"
-    },
-    {
-      "id": 30144376334,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "43de85fbd1d003c1d75e0bac412ae40e0dd830a1",
-      "run_number": 16,
-      "created_at": "2026-07-25T04:38:24Z",
-      "updated_at": "2026-07-25T04:38:34Z"
-    },
-    {
-      "id": 30144359127,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "51d9e3c7436d69e356b5f20d391563df219cb627",
-      "run_number": 15,
-      "created_at": "2026-07-25T04:37:47Z",
-      "updated_at": "2026-07-25T04:37:57Z"
-    },
-    {
-      "id": 30144343485,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "4b00fd0b11f1590b7e01ad3c42bb7798f356ed37",
-      "run_number": 14,
-      "created_at": "2026-07-25T04:37:13Z",
-      "updated_at": "2026-07-25T04:37:23Z"
-    },
-    {
-      "id": 30144224316,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "prd",
-      "head_sha": "eeafeb4c43c59ff92fc3bfb200a2007af9b4c206",
-      "run_number": 13,
-      "created_at": "2026-07-25T04:33:06Z",
-      "updated_at": "2026-07-25T04:33:14Z"
-    },
-    {
-      "id": 30144224312,
-      "name": "Deploy production",
-      "path": ".github/workflows/deploy-prd.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "prd",
-      "head_sha": "eeafeb4c43c59ff92fc3bfb200a2007af9b4c206",
-      "run_number": 5,
-      "created_at": "2026-07-25T04:33:06Z",
-      "updated_at": "2026-07-25T04:33:27Z"
-    },
-    {
-      "id": 30144203635,
-      "name": "PRD PO Approval",
-      "path": ".github/workflows/prd-po-approval.yml",
-      "event": "pull_request_target",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "test/deployment-evidence-live",
-      "head_sha": "03ab6f5f5a25e05d7ac9dd0d7ceab9c3c0a8d09b",
-      "run_number": 4,
-      "created_at": "2026-07-25T04:32:23Z",
-      "updated_at": "2026-07-25T04:32:37Z"
-    },
-    {
-      "id": 30144203634,
-      "name": "Observe PO approval gate",
-      "path": ".github/workflows/prd-po-observer.yml",
-      "event": "pull_request_target",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_branch": "test/deployment-evidence-live",
-      "head_sha": "03ab6f5f5a25e05d7ac9dd0d7ceab9c3c0a8d09b",
-      "run_number": 2,
-      "created_at": "2026-07-25T04:32:23Z",
-      "updated_at": "2026-07-25T04:32:53Z"
-    },
-    {
-      "id": 30144203624,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "pull_request",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "test/deployment-evidence-live",
-      "head_sha": "03ab6f5f5a25e05d7ac9dd0d7ceab9c3c0a8d09b",
-      "run_number": 12,
-      "created_at": "2026-07-25T04:32:23Z",
-      "updated_at": "2026-07-25T04:32:34Z"
-    },
-    {
-      "id": 30144168240,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "a5ed52fa9a5484b4043daf98cd70ba55e67e7f9a",
-      "run_number": 11,
-      "created_at": "2026-07-25T04:31:11Z",
-      "updated_at": "2026-07-25T04:31:22Z"
-    },
-    {
-      "id": 30144027410,
-      "name": "Deploy production",
-      "path": ".github/workflows/deploy-prd.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_branch": "prd",
-      "head_sha": "c01823e66f6b937fc4045db35c96558aff5496d9",
-      "run_number": 4,
-      "created_at": "2026-07-25T04:26:25Z",
-      "updated_at": "2026-07-25T04:26:43Z"
-    },
-    {
-      "id": 30144027406,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "prd",
-      "head_sha": "c01823e66f6b937fc4045db35c96558aff5496d9",
-      "run_number": 10,
-      "created_at": "2026-07-25T04:26:25Z",
-      "updated_at": "2026-07-25T04:26:36Z"
-    },
-    {
-      "id": 30143953122,
-      "name": "PRD PO Approval",
-      "path": ".github/workflows/prd-po-approval.yml",
-      "event": "pull_request_target",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "test/po-approval-observed",
-      "head_sha": "ba0153988a9d621d5bdbe9b0c99d932ad912ccdb",
-      "run_number": 3,
-      "created_at": "2026-07-25T04:23:54Z",
-      "updated_at": "2026-07-25T04:24:11Z"
-    },
-    {
-      "id": 30143953117,
-      "name": "Observe PO approval gate",
-      "path": ".github/workflows/prd-po-observer.yml",
-      "event": "pull_request_target",
-      "status": "completed",
-      "conclusion": "failure",
-      "head_branch": "test/po-approval-observed",
-      "head_sha": "ba0153988a9d621d5bdbe9b0c99d932ad912ccdb",
-      "run_number": 1,
-      "created_at": "2026-07-25T04:23:54Z",
-      "updated_at": "2026-07-25T04:24:23Z"
-    },
-    {
-      "id": 30143953084,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "pull_request",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "test/po-approval-observed",
-      "head_sha": "ba0153988a9d621d5bdbe9b0c99d932ad912ccdb",
-      "run_number": 9,
-      "created_at": "2026-07-25T04:23:53Z",
-      "updated_at": "2026-07-25T04:24:01Z"
-    },
-    {
-      "id": 30143934843,
-      "name": "CI",
-      "path": ".github/workflows/ci.yml",
-      "event": "push",
-      "status": "completed",
-      "conclusion": "success",
-      "head_branch": "main",
-      "head_sha": "ccc86aac29c108868bfb2f5d42ce1ca23e7bc357",
-      "run_number": 8,
-      "created_at": "2026-07-25T04:23:13Z",
-      "updated_at": "2026-07-25T04:23:20Z"
-    }
-  ],
-  "target_checks": [
-    {
-      "id": 89660749618,
-      "name": "Publish exact-SHA branch direction check",
-      "status": "completed",
-      "conclusion": "failure",
-      "external_id": "af730af4-3c19-52fd-9ffc-ca177b36c531",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150801041/job/89660749618"
-    },
-    {
-      "id": 89660747683,
-      "name": "Validate repository",
-      "status": "completed",
-      "conclusion": "success",
-      "external_id": "2a63c08f-de7f-5c7b-a540-9cacc5a33fd0",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150800314/job/89660747683"
-    },
-    {
-      "id": 89660747321,
-      "name": "Publish exact-SHA branch direction check",
-      "status": "completed",
-      "conclusion": "failure",
-      "external_id": "1d075fe7-38bb-5093-84d9-c600f64af229",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150800091/job/89660747321"
-    },
-    {
-      "id": 89660730621,
-      "name": "Publish exact-SHA branch direction check",
-      "status": "completed",
-      "conclusion": "success",
-      "external_id": "aa428894-1197-568c-a1d8-d1ae7d4af859",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150793593/job/89660730621"
-    },
-    {
-      "id": 89659660199,
-      "name": "Validate branch direction",
-      "status": "completed",
-      "conclusion": "failure",
-      "external_id": "branch-direction:12:a363142da023a7ea64b30aa9a9b8b9d31395763c",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/runs/89659660199"
-    },
-    {
-      "id": 89659650669,
-      "name": "Publish exact-SHA branch direction check",
-      "status": "completed",
-      "conclusion": "failure",
-      "external_id": "24d9c466-2678-5588-bf6b-6a5117bab153",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150385991/job/89659650669"
-    },
-    {
-      "id": 89659650060,
-      "name": "Validate repository",
-      "status": "completed",
-      "conclusion": "success",
-      "external_id": "6de2a727-00e7-5d38-9cc4-6221492192d4",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150385807/job/89659650060"
-    },
-    {
-      "id": 89659625968,
-      "name": "Publish exact-SHA branch direction check",
-      "status": "completed",
-      "conclusion": "failure",
-      "external_id": "ab81431e-4d60-51b6-aab8-87edd7330d51",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150376307/job/89659625968"
-    },
-    {
-      "id": 89659355936,
-      "name": "Publish exact-SHA branch direction check",
-      "status": "completed",
-      "conclusion": "failure",
-      "external_id": "676651d8-728f-50ac-937b-6f314d0ba5ab",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150273481/job/89659355936"
-    },
-    {
-      "id": 89659255778,
-      "name": "Publish exact-SHA branch direction check",
-      "status": "completed",
-      "conclusion": "failure",
-      "external_id": "2c4b41f4-7b05-5199-99bd-ca90689661cf",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150235055/job/89659255778"
-    },
-    {
-      "id": 89659252626,
-      "name": "Publish exact-SHA branch direction check",
-      "status": "completed",
-      "conclusion": "cancelled",
-      "external_id": "218482db-6195-5e6b-98c6-50914728a49a",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150234218/job/89659252626"
-    },
-    {
-      "id": 89659252522,
-      "name": "Validate repository",
-      "status": "completed",
-      "conclusion": "success",
-      "external_id": "30ce197f-4c02-559f-90fa-2f0f7e792378",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30150234145/job/89659252522"
-    },
-    {
-      "id": 89658406524,
-      "name": "Validate branch direction",
-      "status": "completed",
-      "conclusion": "failure",
-      "external_id": "7900d540-2738-5ae9-b314-6fb2cb2815b1",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30149915621/job/89658406524"
-    },
-    {
-      "id": 89657756881,
-      "name": "Validate branch direction",
-      "status": "completed",
-      "conclusion": "failure",
-      "external_id": "764bd85b-2eea-5e12-a25c-236c69e85caf",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30149672311/job/89657756881"
-    },
-    {
-      "id": 89657756120,
-      "name": "Validate branch direction",
-      "status": "completed",
-      "conclusion": "failure",
-      "external_id": "b519aab2-8ef0-5f42-bbf9-5dfe3aec7bca",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30149671970/job/89657756120"
-    },
-    {
-      "id": 89657755682,
-      "name": "Validate repository",
-      "status": "completed",
-      "conclusion": "success",
-      "external_id": "4e68f9e1-11f8-52ef-8b5e-95edba85e503",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30149671849/job/89657755682"
-    },
-    {
-      "id": 89645439602,
-      "name": "Validate repository",
-      "status": "completed",
-      "conclusion": "success",
-      "external_id": "d9c5301c-ecbd-59f4-8b7c-3e6328280842",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30145153985/job/89645439602"
-    },
-    {
-      "id": 89643564769,
-      "name": "Deploy production",
-      "status": "completed",
-      "conclusion": "success",
-      "external_id": "1b2dd402-a9f5-504e-ad66-f83494256f84",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30144463034/job/89643564769"
-    },
-    {
-      "id": 89643556350,
-      "name": "Verify merged PR provenance",
-      "status": "completed",
-      "conclusion": "success",
-      "external_id": "b3ee2174-4493-5167-a24f-95c09c796818",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30144463034/job/89643556350"
-    },
-    {
-      "id": 89643556269,
-      "name": "Validate repository",
-      "status": "completed",
-      "conclusion": "success",
-      "external_id": "9d8db74e-ae44-5a58-8bfa-734d56d00633",
-      "app": {
-        "id": 15368,
-        "slug": "github-actions"
-      },
-      "details_url": "https://github.com/tsuji-tomonori/github-actions-po-approval-gate-demo/actions/runs/30144463051/job/89643556269"
     }
   ]
 }
