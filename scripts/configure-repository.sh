@@ -136,6 +136,7 @@ jq -n \
           strict_required_status_checks_policy: true,
           required_status_checks: [
             {context: "PO approval for PRD", integration_id: $actions_app_id},
+            {context: "Validate branch direction", integration_id: $actions_app_id},
             {context: "Validate repository", integration_id: $actions_app_id}
           ]
         }
@@ -172,6 +173,7 @@ jq -n \
           do_not_enforce_on_create: true,
           strict_required_status_checks_policy: true,
           required_status_checks: [
+            {context: "Validate branch direction", integration_id: $actions_app_id},
             {context: "Validate repository", integration_id: $actions_app_id}
           ]
         }
