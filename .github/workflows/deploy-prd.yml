@@ -1,0 +1,62 @@
+name: Deploy production
+
+on:
+  push:
+    branches: [prd]
+
+permissions:
+  contents: read
+  pull-requests: read
+  deployments: write
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  authorize:
+    name: Verify merged PR provenance
+    runs-on: ubuntu-latest
+    outputs:
+      pull-request-number: ${{ steps.provenance.outputs.pull-request-number }}
+    steps:
+      - id: provenance
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const associated = await github.rest.repos.listPullRequestsAssociatedWithCommit({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha,
+              per_page: 100,
+            });
+            const merged = associated.data
+              .filter(pr => pr.merged_at && pr.base.ref === 'prd')
+              .sort((a, b) => String(b.merged_at).localeCompare(String(a.merged_at)));
+            if (merged.length === 0) {
+              core.setFailed(`Commit ${context.sha} is not from a merged PR targeting prd.`);
+              return;
+            }
+            core.setOutput('pull-request-number', String(merged[0].number));
+
+  deploy:
+    name: Deploy production
+    needs: authorize
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Simulate production deployment
+        env:
+          SOURCE_PULL_REQUEST: ${{ needs.authorize.outputs.pull-request-number }}
+        run: ./scripts/deploy-prd.sh
+      - uses: actions/upload-artifact@v7
+        with:
+          name: production-deployment-${{ github.sha }}
+          path: artifacts/deployment.json
+          if-no-files-found: error
+          retention-days: 30

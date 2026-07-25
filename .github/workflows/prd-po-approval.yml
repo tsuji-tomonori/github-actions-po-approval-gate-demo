@@ -1,0 +1,143 @@
+name: PRD PO Approval
+
+on:
+  pull_request_target:
+    branches: [prd]
+    types: [opened, synchronize, reopened, ready_for_review, converted_to_draft]
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+
+concurrency:
+  group: prd-po-approval-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+env:
+  APPROVAL_CHECK_NAME: PO approval for PRD
+
+jobs:
+  prepare:
+    name: Prepare PO approval check
+    runs-on: ubuntu-latest
+    outputs:
+      check-run-id: ${{ steps.check.outputs.result }}
+      head-sha: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - id: check
+        name: Create or reset the exact-SHA approval check
+        uses: actions/github-script@v9
+        with:
+          result-encoding: string
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pr = context.payload.pull_request;
+            const name = process.env.APPROVAL_CHECK_NAME;
+            const externalId = `prd-po-approval:${pr.number}:${pr.head.sha}`;
+            const listed = await github.rest.checks.listForRef({
+              owner, repo, ref: pr.head.sha, check_name: name, per_page: 100,
+            });
+            const prior = listed.data.check_runs.find(
+              run => run.external_id === externalId,
+            );
+            const common = {
+              owner,
+              repo,
+              status: 'in_progress',
+              started_at: new Date().toISOString(),
+              details_url: pr.html_url,
+              output: {
+                title: 'PO approval pending',
+                summary: `PR #${pr.number} の ${pr.head.sha} に対するPO承認待ちです。`,
+              },
+            };
+            if (prior) {
+              const updated = await github.rest.checks.update({
+                ...common, check_run_id: prior.id,
+              });
+              return String(updated.data.id);
+            }
+            const created = await github.rest.checks.create({
+              ...common,
+              name,
+              head_sha: pr.head.sha,
+              external_id: externalId,
+            });
+            return String(created.data.id);
+
+  approve:
+    name: Wait for PO approval
+    needs: prepare
+    if: ${{ github.event.pull_request.draft == false }}
+    runs-on: ubuntu-latest
+    environment:
+      name: prd-approval
+      url: ${{ github.event.pull_request.html_url }}
+    steps:
+      - name: Approve only the unchanged PR revision
+        uses: actions/github-script@v9
+        env:
+          CHECK_RUN_ID: ${{ needs.prepare.outputs.check-run-id }}
+          APPROVED_SHA: ${{ needs.prepare.outputs.head-sha }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const pull_number = context.payload.pull_request.number;
+            const check_run_id = Number(process.env.CHECK_RUN_ID);
+            const approvedSha = process.env.APPROVED_SHA;
+            const current = await github.rest.pulls.get({owner, repo, pull_number});
+            if (current.data.head.sha !== approvedSha) {
+              await github.rest.checks.update({
+                owner,
+                repo,
+                check_run_id,
+                status: 'completed',
+                conclusion: 'cancelled',
+                completed_at: new Date().toISOString(),
+                output: {
+                  title: 'Approval invalidated',
+                  summary: '承認中にHEADが変更されたため、再承認が必要です。',
+                },
+              });
+              core.setFailed('Pull RequestのHEADが変更されました。');
+              return;
+            }
+            await github.rest.checks.update({
+              owner,
+              repo,
+              check_run_id,
+              status: 'completed',
+              conclusion: 'success',
+              completed_at: new Date().toISOString(),
+              output: {
+                title: 'PO approval completed',
+                summary: `PR #${pull_number} の ${approvedSha} を承認しました。`,
+              },
+            });
+
+  reject:
+    name: Close rejected approval check
+    needs: [prepare, approve]
+    if: ${{ always() && needs.prepare.result == 'success' && needs.approve.result == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v9
+        env:
+          CHECK_RUN_ID: ${{ needs.prepare.outputs.check-run-id }}
+        with:
+          script: |
+            await github.rest.checks.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              check_run_id: Number(process.env.CHECK_RUN_ID),
+              status: 'completed',
+              conclusion: 'failure',
+              completed_at: new Date().toISOString(),
+              output: {
+                title: 'PO approval rejected or failed',
+                summary: 'PO承認が成立しなかったため、prdへのマージを許可しません。',
+              },
+            });

@@ -1,0 +1,4 @@
+# 個人アカウントの公開デモです。組織運用ではPO TeamとGovernance Teamへ置換します。
+/.github/CODEOWNERS                  @tsuji-tomonori
+/.github/workflows/**                @tsuji-tomonori
+/scripts/**                          @tsuji-tomonori
