@@ -8,9 +8,27 @@ Product Owner（PO）が承認したPull Requestだけを`prd`へマージ可能
 2. `PRD PO Approval`がPull Requestの最新HEAD SHAへ`PO approval for PRD` Checkを作成します。
 3. `prd-approval` Environmentのrequired reviewerだけに［Approve and deploy］が表示されます。
 4. PO承認後もHEAD SHAを再確認し、承認中にコミットが追加されていれば失敗させます。
-5. `prd` Rulesetが`PO approval for PRD`と`Validate repository`を必須Checkにするため、承認前はマージできません。
+5. `prd` Rulesetが`PO approval for PRD`、`Validate branch direction`、`Validate repository`を必須Checkにするため、承認前はマージできません。
 6. `prd`へのマージで`Deploy production`が起動します。
 7. デプロイ前に、対象コミットが`prd`向けのmerged Pull Request由来であることを確認します。
+
+## ブランチモデル
+
+`main`を正規のソースブランチ、`prd`をデプロイ済みスナップショットを保持する到達先として扱います。
+
+```text
+feature/* ──> main ──> prd ──> Deploy production
+                  PO approval required
+```
+
+許可する方向は次のとおりです。
+
+- `feature/*`、`fix/*`、`hotfix/*`から`main`
+- `main`または`main`から作成したrelease branchから`prd`
+
+`prd`から`main`や他のブランチへ戻すPull Requestは禁止します。`prd`上で判明した修正は、`main`から修正ブランチを作って`main`へ反映し、その後、新しいPull Requestで`prd`へ配信します。
+
+`.github/workflows/branch-policy.yml`は信頼済みbase branch上の`pull_request_target`として動き、Pull Requestのコードをcheckoutせずに`prd`をheadとする逆方向PRを失敗させます。
 
 ## 一度だけ行うRepository Administration設定
 
@@ -37,8 +55,8 @@ bash scripts/verify-repository.sh \
 - `prd-approval`と`production`で管理者bypassを無効化
 - `prd-approval`は信頼済み実行refの`main`だけを許可
 - `production`は`prd`だけを許可
-- `prd`はPull Request経由、`PO approval for PRD`、`Validate repository`を必須化
-- `main`はPull Request経由と`Validate repository`を必須化
+- `prd`はPull Request経由、`PO approval for PRD`、`Validate branch direction`、`Validate repository`を必須化
+- `main`はPull Request経由、`Validate branch direction`、`Validate repository`を必須化
 - 両Rulesetのbypass actorを空に設定
 
 ## 必須のRepository設定
@@ -65,6 +83,7 @@ bash scripts/verify-repository.sh \
 - Require a pull request before merging
 - Required status checks:
   - `PO approval for PRD`
+  - `Validate branch direction`
   - `Validate repository`
 - Require branches to be up to date
 - Require conversation resolution
@@ -73,7 +92,7 @@ bash scripts/verify-repository.sh \
 
 ## セキュリティ上の要点
 
-`pull_request_target`は強い権限を持つため、承認WorkflowではPull Request由来コードをcheckout・install・実行しません。承認対象は常にPull Requestの最新HEAD SHAへ固定します。デプロイWorkflowは`prd`へのpushだけで起動し、さらにmerged Pull Request由来であることをAPIで検証します。
+`pull_request_target`は強い権限を持つため、承認Workflowとbranch policy WorkflowではPull Request由来コードをcheckout・install・実行しません。承認対象は常にPull Requestの最新HEAD SHAへ固定します。デプロイWorkflowは`prd`へのpushだけで起動し、さらにmerged Pull Request由来であることをAPIで検証します。
 
 ## 動作確認
 
@@ -89,6 +108,7 @@ GitHub上の受け入れテスト:
 4. Check成功後にコミットを追加し、再びpendingへ戻ることを確認します。
 5. 新しいSHAを再承認して`prd`へマージします。
 6. `Deploy production`が成功し、`production-deployment-<SHA>` artifactのSHAとPR番号を確認します。
+7. `prd`から`main`へのPRを作成し、`Validate branch direction`が失敗することを確認します。
 
 ## 現在の検証状況
 
