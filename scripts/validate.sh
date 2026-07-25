@@ -27,7 +27,13 @@ grep -Fq 'environment:' .github/workflows/prd-po-approval.yml
 grep -Fq 'name: prd-approval' .github/workflows/prd-po-approval.yml
 grep -Fq 'current.data.head.sha !== approvedSha' .github/workflows/prd-po-approval.yml
 grep -Fq 'pull_request_target:' .github/workflows/branch-policy.yml
-grep -Fq 'Validate branch direction' .github/workflows/branch-policy.yml
+grep -Fq 'checks: write' .github/workflows/branch-policy.yml
+grep -Fq 'issues: write' .github/workflows/branch-policy.yml
+grep -Fq "const checkName = 'Validate branch direction'" .github/workflows/branch-policy.yml
+grep -Fq 'head_sha: pr.head.sha' .github/workflows/branch-policy.yml
+grep -Fq 'external_id: externalId' .github/workflows/branch-policy.yml
+grep -Fq 'github.rest.checks.create' .github/workflows/branch-policy.yml
+grep -Fq 'github.rest.checks.update' .github/workflows/branch-policy.yml
 ! grep -Fq 'actions/checkout' .github/workflows/branch-policy.yml
 grep -Fq 'branches: [prd]' .github/workflows/deploy-prd.yml
 grep -Fq "pr.base.ref === 'prd'" .github/workflows/deploy-prd.yml
