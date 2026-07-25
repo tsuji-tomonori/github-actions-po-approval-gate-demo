@@ -39,8 +39,8 @@ grep -Fq 'workflow_run:' .github/workflows/branch-policy.yml
 grep -Fq 'workflows: [CI]' .github/workflows/branch-policy.yml
 grep -Fq 'actions: read' .github/workflows/branch-policy.yml
 grep -Fq 'checks: write' .github/workflows/branch-policy.yml
-grep -Fq 'issues: write' .github/workflows/branch-policy.yml
 grep -Fq 'pull-requests: read' .github/workflows/branch-policy.yml
+! grep -Fq 'issues: write' .github/workflows/branch-policy.yml
 grep -Fq "const checkName = 'Validate branch direction'" .github/workflows/branch-policy.yml
 grep -Fq 'run.head_sha' .github/workflows/branch-policy.yml
 grep -Fq 'github.rest.pulls.get' .github/workflows/branch-policy.yml
@@ -48,7 +48,7 @@ grep -Fq 'head_sha: pr.head.sha' .github/workflows/branch-policy.yml
 grep -Fq 'external_id: externalId' .github/workflows/branch-policy.yml
 grep -Fq 'github.rest.checks.create' .github/workflows/branch-policy.yml
 grep -Fq 'github.rest.checks.update' .github/workflows/branch-policy.yml
-grep -Fq 'upsertObservation' .github/workflows/branch-policy.yml
+! grep -Fq 'github.rest.issues.' .github/workflows/branch-policy.yml
 ! grep -Fq 'actions/checkout' .github/workflows/branch-policy.yml
 
 # actions/github-script evaluates the inline body inside an async function.
