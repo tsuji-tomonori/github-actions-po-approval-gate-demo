@@ -28,7 +28,7 @@ feature/* ──> main ──> prd ──> Deploy production
 
 `prd`から`main`や他のブランチへ戻すPull Requestは禁止します。`prd`上で判明した修正は、`main`から修正ブランチを作って`main`へ反映し、その後、新しいPull Requestで`prd`へ配信します。
 
-`.github/workflows/branch-policy.yml`は信頼済みbase branch上の`pull_request_target`として動き、Pull Requestのコードをcheckoutせずに`prd`をheadとする逆方向PRを失敗させます。`pull_request_target`自身のjob結果ではなく、Checks APIでPull Requestの正確なHEAD SHAへ`Validate branch direction`を作成するため、Rulesetが最新revisionを確実に判定できます。拒否時は理由をPull Requestへコメントします。
+`.github/workflows/branch-policy.yml`は信頼済みのdefault branchから、`pull_request_target`と`CI`完了後の`workflow_run`の両方で動きます。どちらの経路でもPull Requestのコードをcheckout・install・実行せず、現在もopenであるPull Requestと最新HEAD SHAをGitHub APIから再取得します。そのうえでChecks APIを使い、正確なHEAD SHAへ`Validate branch direction`を冪等に作成します。`workflow_run`経路は、CIが確実に完了した時点で判定を再同期するためのフォールバックです。古いSHAやクローズ済みPull Requestは処理しません。判定結果はPull Requestコメントにも記録します。
 
 ## 一度だけ行うRepository Administration設定
 
@@ -92,7 +92,7 @@ bash scripts/verify-repository.sh \
 
 ## セキュリティ上の要点
 
-`pull_request_target`は強い権限を持つため、承認Workflowとbranch policy WorkflowではPull Request由来コードをcheckout・install・実行しません。承認対象は常にPull Requestの最新HEAD SHAへ固定します。デプロイWorkflowは`prd`へのpushだけで起動し、さらにmerged Pull Request由来であることをAPIで検証します。
+承認Workflowとbranch policy Workflowは、強い権限を持つ信頼済みイベントで動くため、Pull Request由来コードをcheckout・install・実行しません。入力はGitHub APIから取得したPR番号、base branch、head branch、現在のHEAD SHAだけです。承認対象とbranch-direction判定は常に最新HEAD SHAへ固定します。デプロイWorkflowは`prd`へのpushだけで起動し、さらにmerged Pull Request由来であることをAPIで検証します。
 
 ## 動作確認
 
