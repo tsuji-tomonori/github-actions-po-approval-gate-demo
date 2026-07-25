@@ -28,19 +28,22 @@ approval=$(gh api -H "X-GitHub-Api-Version: $API_VERSION" "repos/$FULL_REPO/envi
 production=$(gh api -H "X-GitHub-Api-Version: $API_VERSION" "repos/$FULL_REPO/environments/production")
 
 [[ $(jq -r .can_admins_bypass <<<"$approval") == false ]] && pass 'prd-approval blocks administrator bypass' || fail 'prd-approval permits administrator bypass'
-[[ $(jq -r --argjson id "$po_id" '[.protection_rules[]? | select(.type == "required_reviewers") | .reviewers[]? | select(.reviewer.id == $id)] | length' <<<"$approval") -ge 1 ]] \
-  && pass "prd-approval required reviewer is $PO_LOGIN" \
-  || fail "prd-approval required reviewer is not $PO_LOGIN"
+reviewer_ids=$(jq -c '[.protection_rules[]? | select(.type == "required_reviewers") | .reviewers[]?.reviewer.id] | sort' <<<"$approval")
+[[ "$reviewer_ids" == "[$po_id]" ]] \
+  && pass "prd-approval required reviewer is exactly $PO_LOGIN" \
+  || fail "prd-approval reviewers are unexpected: $reviewer_ids"
 [[ $(jq -r .can_admins_bypass <<<"$production") == false ]] && pass 'production blocks administrator bypass' || fail 'production permits administrator bypass'
 
 approval_policies=$(gh api -H "X-GitHub-Api-Version: $API_VERSION" "repos/$FULL_REPO/environments/prd-approval/deployment-branch-policies")
 production_policies=$(gh api -H "X-GitHub-Api-Version: $API_VERSION" "repos/$FULL_REPO/environments/production/deployment-branch-policies")
-[[ $(jq '[.branch_policies[] | select(.name == "main" and .type == "branch")] | length' <<<"$approval_policies") -eq 1 ]] \
+approval_policy_names=$(jq -r '[.branch_policies[] | select(.type == "branch") | .name] | sort | join(",")' <<<"$approval_policies")
+production_policy_names=$(jq -r '[.branch_policies[] | select(.type == "branch") | .name] | sort | join(",")' <<<"$production_policies")
+[[ "$approval_policy_names" == main ]] \
   && pass 'prd-approval permits only the trusted main execution ref' \
-  || fail 'prd-approval main branch policy is missing'
-[[ $(jq '[.branch_policies[] | select(.name == "prd" and .type == "branch")] | length' <<<"$production_policies") -eq 1 ]] \
-  && pass 'production permits the prd branch' \
-  || fail 'production prd branch policy is missing'
+  || fail "prd-approval branch policies are unexpected: $approval_policy_names"
+[[ "$production_policy_names" == prd ]] \
+  && pass 'production permits only the prd branch' \
+  || fail "production branch policies are unexpected: $production_policy_names"
 
 rulesets=$(gh api -H "X-GitHub-Api-Version: $API_VERSION" "repos/$FULL_REPO/rulesets")
 for name in 'Protect prd with PO approval' 'Protect main governance'; do
@@ -51,12 +54,15 @@ for name in 'Protect prd with PO approval' 'Protect main governance'; do
   fi
   detail=$(gh api -H "X-GitHub-Api-Version: $API_VERSION" "repos/$FULL_REPO/rulesets/$id")
   [[ $(jq '.bypass_actors | length' <<<"$detail") -eq 0 ]] && pass "$name has no bypass actor" || fail "$name has a bypass actor"
+  contexts=$(jq -r '[.rules[] | select(.type == "required_status_checks") | .parameters.required_status_checks[].context] | sort | join(",")' <<<"$detail")
   if [[ "$name" == 'Protect prd with PO approval' ]]; then
-    contexts=$(jq -r '[.rules[] | select(.type == "required_status_checks") | .parameters.required_status_checks[].context] | sort | join(",")' <<<"$detail")
-    [[ "$contexts" == 'PO approval for PRD,Validate repository' ]] \
-      && pass 'prd requires PO approval and CI checks' \
-      || fail "prd required checks are unexpected: $contexts"
+    expected='PO approval for PRD,Validate branch direction,Validate repository'
+  else
+    expected='Validate branch direction,Validate repository'
   fi
+  [[ "$contexts" == "$expected" ]] \
+    && pass "$name requires the expected checks" \
+    || fail "$name required checks are unexpected: $contexts"
 done
 
 if (( failures > 0 )); then
