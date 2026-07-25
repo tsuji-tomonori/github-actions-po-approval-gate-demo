@@ -1,0 +1,107 @@
+name: Actions diagnostics
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/actions-diagnostics.yml'
+
+permissions:
+  contents: write
+  actions: read
+  checks: read
+  pull-requests: read
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Capture workflow registration and recent runs
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const targetSha = 'a363142da023a7ea64b30aa9a9b8b9d31395763c';
+            const workflows = await github.paginate(
+              github.rest.actions.listRepoWorkflows,
+              {owner, repo, per_page: 100},
+            );
+            const runs = await github.paginate(
+              github.rest.actions.listWorkflowRunsForRepo,
+              {owner, repo, per_page: 100},
+            );
+            const checks = await github.rest.checks.listForRef({
+              owner,
+              repo,
+              ref: targetSha,
+              per_page: 100,
+            });
+            const pr = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: 12,
+            });
+            const evidence = {
+              schema_version: 'actions-diagnostics/v1',
+              captured_at: new Date().toISOString(),
+              capture_run_id: String(context.runId),
+              default_branch_sha: context.sha,
+              pull_request: {
+                number: pr.data.number,
+                state: pr.data.state,
+                base: pr.data.base.ref,
+                head: pr.data.head.ref,
+                head_sha: pr.data.head.sha,
+              },
+              workflows: workflows.map(workflow => ({
+                id: workflow.id,
+                name: workflow.name,
+                path: workflow.path,
+                state: workflow.state,
+              })),
+              recent_runs: runs.slice(0, 100).map(run => ({
+                id: run.id,
+                name: run.name,
+                path: run.path,
+                event: run.event,
+                status: run.status,
+                conclusion: run.conclusion,
+                head_branch: run.head_branch,
+                head_sha: run.head_sha,
+                run_number: run.run_number,
+                created_at: run.created_at,
+                updated_at: run.updated_at,
+              })),
+              target_checks: checks.data.check_runs.map(check => ({
+                id: check.id,
+                name: check.name,
+                status: check.status,
+                conclusion: check.conclusion,
+                external_id: check.external_id,
+                app: check.app ? {id: check.app.id, slug: check.app.slug} : null,
+                details_url: check.details_url,
+              })),
+            };
+            const path = 'evidence/actions-diagnostics.json';
+            let currentSha;
+            try {
+              const current = await github.rest.repos.getContent({
+                owner,
+                repo,
+                path,
+                ref: 'diagnostics',
+              });
+              currentSha = current.data.sha;
+            } catch (error) {
+              if (error.status !== 404) throw error;
+            }
+            await github.rest.repos.createOrUpdateFileContents({
+              owner,
+              repo,
+              path,
+              branch: 'diagnostics',
+              message: 'chore: record GitHub Actions diagnostics',
+              content: Buffer.from(`${JSON.stringify(evidence, null, 2)}\n`).toString('base64'),
+              ...(currentSha ? {sha: currentSha} : {}),
+            });
