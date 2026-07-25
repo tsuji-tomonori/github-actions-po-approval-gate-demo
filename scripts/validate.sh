@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+for command in node python3; do
+  command -v "$command" >/dev/null 2>&1 || {
+    echo "$command is required." >&2
+    exit 2
+  }
+done
+
 for script in \
   scripts/deploy-prd.sh \
   scripts/configure-repository.sh \
@@ -43,6 +50,24 @@ grep -Fq 'github.rest.checks.create' .github/workflows/branch-policy.yml
 grep -Fq 'github.rest.checks.update' .github/workflows/branch-policy.yml
 grep -Fq 'upsertObservation' .github/workflows/branch-policy.yml
 ! grep -Fq 'actions/checkout' .github/workflows/branch-policy.yml
+
+# Parse and syntax-check the inline actions/github-script program as an ES module.
+python3 - <<'PY' >/tmp/branch-policy-script.mjs
+from pathlib import Path
+import textwrap
+
+path = Path('.github/workflows/branch-policy.yml')
+lines = path.read_text(encoding='utf-8').splitlines()
+try:
+    start = next(index for index, line in enumerate(lines) if line.strip() == 'script: |')
+except StopIteration as exc:
+    raise SystemExit('branch-policy.yml has no inline script block') from exc
+script = textwrap.dedent('\n'.join(lines[start + 1 :])).rstrip() + '\n'
+if not script.strip():
+    raise SystemExit('branch-policy.yml inline script is empty')
+print(script, end='')
+PY
+node --input-type=module --check </tmp/branch-policy-script.mjs
 
 # The PO approval workflow must also remain metadata-only.
 ! grep -Fq 'actions/checkout' .github/workflows/prd-po-approval.yml
