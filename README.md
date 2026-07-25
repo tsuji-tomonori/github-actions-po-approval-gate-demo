@@ -28,7 +28,7 @@ feature/* ──> main ──> prd ──> Deploy production
 
 `prd`から`main`や他のブランチへ戻すPull Requestは禁止します。`prd`上で判明した修正は、`main`から修正ブランチを作って`main`へ反映し、その後、新しいPull Requestで`prd`へ配信します。
 
-`.github/workflows/branch-policy.yml`は信頼済みbase branch上の`pull_request_target`として動き、Pull Requestのコードをcheckoutせずに`prd`をheadとする逆方向PRを失敗させます。
+`.github/workflows/branch-policy.yml`は信頼済みbase branch上の`pull_request_target`として動き、Pull Requestのコードをcheckoutせずに`prd`をheadとする逆方向PRを失敗させます。`pull_request_target`自身のjob結果ではなく、Checks APIでPull Requestの正確なHEAD SHAへ`Validate branch direction`を作成するため、Rulesetが最新revisionを確実に判定できます。拒否時は理由をPull Requestへコメントします。
 
 ## 一度だけ行うRepository Administration設定
 
